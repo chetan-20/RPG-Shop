@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bc862ec63089544897fdee69b4823d4, type: 3}
-  m_Name: NewShopItem
+  m_Name: Item1
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  itemDescription: Gay fr fr
-  buyingPrice: 200
-  weight: 100
-  quantity: 5
+  itemDescription: 
+  buyingPrice: 0
+  weight: 0
+  quantity: 0
   itemRarity: 0
-  itemType: 1
+  itemType: 0

@@ -21,8 +21,7 @@ public class ShopItemsSO : ScriptableObject
         Legendary
     }
     private enum type
-    {
-        None,
+    {       
         Material,
         Weapon,
         Consumable,
