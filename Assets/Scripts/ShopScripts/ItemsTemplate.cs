@@ -5,12 +5,12 @@ using TMPro;
 using UnityEngine.UI;
 public class ItemsTemplate : MonoBehaviour
 {
-    [SerializeField] private Button buyButton;
-    [SerializeField] private Image iconImage;
-    [SerializeField] private TMP_Text priceText;
-    [SerializeField] private TMP_Text QuantityText;
-    [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text rarityText;
-    [SerializeField] private TMP_Text itemweightText;
-
+    [SerializeField] internal Button buyButton;
+    [SerializeField] internal Image iconImage;
+    [SerializeField] internal TMP_Text priceText;
+    [SerializeField] internal TMP_Text QuantityText;
+    [SerializeField] internal TMP_Text descriptionText;
+    [SerializeField] internal TMP_Text rarityText;
+    [SerializeField] internal TMP_Text itemweightText;
+    internal ShopItemsSO.type itemType;   
 }

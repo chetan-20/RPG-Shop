@@ -1,26 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName="NewShopItem",menuName ="ShopItem")]
 public class ShopItemsSO : ScriptableObject
 {
  
-    [SerializeField] private Sprite icon;
-    [SerializeField] private string itemDescription;
-    [SerializeField] private int buyingPrice;
-    [SerializeField] private float weight;    
-    [SerializeField] private int quantity;
-    [SerializeField] private rarity itemRarity;
-    [SerializeField] private type itemType;
-    private enum rarity
+    [SerializeField] internal Sprite icon;
+    [SerializeField] internal string itemDescription;
+    [SerializeField] internal int buyingPrice;
+    [SerializeField] internal float weight;    
+    [SerializeField] internal int quantity;
+    [SerializeField] internal rarity itemRarity;
+    [SerializeField] internal type itemType;
+    internal enum rarity
     {
         Common,
         Rare,
         Epic,
         Legendary
     }
-    private enum type
+    internal enum type
     {       
         Material,
         Weapon,

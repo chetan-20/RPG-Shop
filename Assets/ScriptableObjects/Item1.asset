@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc862ec63089544897fdee69b4823d4, type: 3}
   m_Name: Item1
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  itemDescription: 
-  buyingPrice: 0
-  weight: 0
-  quantity: 0
+  icon: {fileID: 21300000, guid: 9a397e83c4c3c994c988babb654f2b5d, type: 3}
+  itemDescription: 'Bandage : Heal By 20HP'
+  buyingPrice: 20
+  weight: 5
+  quantity: 8
   itemRarity: 0
   itemType: 0
