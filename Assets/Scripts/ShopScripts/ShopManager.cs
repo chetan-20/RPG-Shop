@@ -14,11 +14,27 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         DisableAllItems();
+        LoadMaterialItems();
+    }
+    public void LoadMaterialItems()
+    {
+        ConnectSOtoUI(materialItemsSO);
+    }
+    public void LoadWeaponItems()
+    {
         ConnectSOtoUI(weaponItemsSO);
     }
-
+    public void LoadConsumablesItems()
+    {
+        ConnectSOtoUI(consumablesItemsSO);
+    }
+    public void LoadTreasureItems()
+    {
+        ConnectSOtoUI(treasureItemsSO);
+    }
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
     {
+        DisableAllItems();
         for(int i=0; i<shopItemsSO.Length; i++)
         {
             itemsTemplate[i].gameObject.SetActive(true);
