@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bc862ec63089544897fdee69b4823d4, type: 3}
-  m_Name: TreasureSO
+  m_Name: ConsumableSO 3
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 409f9bc68f7fc3646b5386b3fb9e2a3a, type: 3}
-  itemDescription: Increases Drip
-  buyingPrice: 70
-  weight: 30
-  quantity: 1
-  itemRarity: 3
-  itemType: 3
+  icon: {fileID: 21300000, guid: 0edcb30428af9c34b9114c75ee984bf2, type: 3}
+  itemDescription: Increases Stamina Temporarily
+  buyingPrice: 15
+  weight: 10
+  quantity: 10
+  itemRarity: 1
+  itemType: 2
