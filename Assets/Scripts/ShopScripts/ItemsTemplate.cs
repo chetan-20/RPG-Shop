@@ -11,6 +11,6 @@ public class ItemsTemplate : MonoBehaviour
     [SerializeField] internal TMP_Text QuantityText;
     [SerializeField] internal TMP_Text descriptionText;
     [SerializeField] internal TMP_Text rarityText;
-    [SerializeField] internal TMP_Text itemweightText;
+    [SerializeField] internal TMP_Text itemweightText;  
     internal ShopItemsSO.type itemType;   
 }

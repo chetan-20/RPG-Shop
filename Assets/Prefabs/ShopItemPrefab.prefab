@@ -238,6 +238,7 @@ MonoBehaviour:
   descriptionText: {fileID: 6445221852505926866}
   rarityText: {fileID: 6715833742093067685}
   itemweightText: {fileID: 5130029519957643988}
+  itemPrefab: {fileID: 921037906577573567}
 --- !u!1 &2248341962997147425
 GameObject:
   m_ObjectHideFlags: 0

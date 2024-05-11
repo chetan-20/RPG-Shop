@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    [SerializeField] private ShopItemsSO[] shopItemsSO;
+    [SerializeField] private ShopItemsSO[] materialItemsSO;
+    [SerializeField] private ShopItemsSO[] weaponItemsSO;
+    [SerializeField] private ShopItemsSO[] consumablesItemsSO;
+    [SerializeField] private ShopItemsSO[] treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
-
+    
 
     private void Start()
     {
-        ConnectSOtoUI();
+        DisableAllItems();
+        ConnectSOtoUI(weaponItemsSO);
     }
 
-    private void ConnectSOtoUI()
+    private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
     {
         for(int i=0; i<shopItemsSO.Length; i++)
         {
+            itemsTemplate[i].gameObject.SetActive(true);
             itemsTemplate[i].priceText.text = shopItemsSO[i].buyingPrice.ToString();
             itemsTemplate[i].iconImage.sprite = shopItemsSO[i].icon;
             itemsTemplate[i].descriptionText.text = shopItemsSO[i].itemDescription;
@@ -26,5 +31,11 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].itemType = shopItemsSO[i].itemType;
         }
     }
-   
+   private void DisableAllItems()
+    {
+        for(int i =0; i < itemsTemplate.Length; i++)
+        {
+            itemsTemplate[i].gameObject.SetActive(false);
+        }
+    }
 }
