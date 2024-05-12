@@ -10,8 +10,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopItemsSO[] consumablesItemsSO;
     [SerializeField] private ShopItemsSO[] treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
-    [SerializeField] private ScrollRect scrollRect;
-
+    [SerializeField] private ScrollRect scrollRect;   
     private void Start()
     {
         DisableAllItems();
@@ -37,7 +36,7 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();
             itemsTemplate[i].itemType = shopItemsSO[i].itemType;
         }
-        ResetSCrollRect();
+        ResetSCrollRect();       
     }
    private void DisableAllItems()
     {
