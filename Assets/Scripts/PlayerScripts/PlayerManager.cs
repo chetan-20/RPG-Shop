@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] internal TMP_Text playerCreditstext;
-    internal int playerMoney;
-
+    internal int playerMoney;   
     private void Start()
     {
         playerMoney = 0;
