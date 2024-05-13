@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopItemsSO[] consumablesItemsSO;
     [SerializeField] private ShopItemsSO[] treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
-    [SerializeField] private ScrollRect scrollRect;   
+    [SerializeField] private ScrollRect scrollRect;
+    private int quant = 1;
+    private string selectquant = "Select Quantity : ";
     private void Start()
     {
         DisableAllItems();
@@ -20,8 +23,50 @@ public class ShopManager : MonoBehaviour
     public void LoadWeaponItems()=> ConnectSOtoUI(weaponItemsSO);   
     public void LoadConsumablesItems()=> ConnectSOtoUI(consumablesItemsSO);   
     public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
-    private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
 
+    public void OnClickBuyButton(int i)
+    {
+        itemsTemplate[i].buyButton.gameObject.SetActive(false);
+        itemsTemplate[i].quantityPanel.SetActive(true);       
+    }
+
+    public void OnClickCancelButton(int i)
+    {
+        itemsTemplate[i].buyButton.gameObject.SetActive(true);
+        itemsTemplate[i].quantityPanel.SetActive(false);
+        ResetQuant(i);
+    }
+    public void IncreaseQuantity(int i)
+    {
+        if (quant < int.Parse(itemsTemplate[i].QuantityText.text))
+        {
+            quant++;
+            itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+        }
+        else
+        {
+            itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+        }
+    }
+    public void DecreaseQuantity(int i)
+    {
+        if (quant < 1)
+        {
+            quant = 1;
+            itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+        }
+        else
+        {      
+            itemsTemplate[i].selectQuantityText.text = selectquant + quant; 
+            quant--;
+        }
+    }
+    private void ResetQuant(int i)
+    {
+        quant = 1;
+        itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+    }
+    private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
     {
         DisableAllItems();

@@ -11,6 +11,12 @@ public class ItemsTemplate : MonoBehaviour
     [SerializeField] internal TMP_Text QuantityText;
     [SerializeField] internal TMP_Text descriptionText;
     [SerializeField] internal TMP_Text rarityText;
-    [SerializeField] internal TMP_Text itemweightText;  
+    [SerializeField] internal TMP_Text itemweightText;
+    [SerializeField] internal GameObject quantityPanel;
+    [SerializeField] internal TMP_Text selectQuantityText;
+    [SerializeField] internal Button increaseQuantityButton;
+    [SerializeField] internal Button decreaseQuantityButton;
+    [SerializeField] internal Button purhcaseButton;
+    [SerializeField] internal Button cancelButton;
     internal ShopItemsSO.type itemType;   
 }
