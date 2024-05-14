@@ -6,6 +6,7 @@ using System;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] internal TMP_Text playerCreditstext;
+    [SerializeField] private GameObject playerItemPrefab;
     internal int playerMoney;   
     private void Start()
     {
