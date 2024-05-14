@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 public class ItemsTemplate : MonoBehaviour
 {
     [SerializeField] internal Button buyButton;
@@ -18,5 +19,5 @@ public class ItemsTemplate : MonoBehaviour
     [SerializeField] internal Button decreaseQuantityButton;
     [SerializeField] internal Button purhcaseButton;
     [SerializeField] internal Button cancelButton;
-    internal ShopItemsSO.type itemType;   
+    internal ShopItemsSO.type itemType;
 }

@@ -61,6 +61,24 @@ public class ShopManager : MonoBehaviour
             quant--;
         }
     }
+    public void GenerateCoin()
+    {
+        if (GameService.Instance.PlayerManager.playerMoney == 0)
+        {
+            GameService.Instance.PlayerManager.playerMoney = Random.Range(35, 65);
+        }
+        GameService.Instance.PlayerManager.UpdateCredits();
+    }
+    public void SellShopItem(ShopItemsSO item)
+    {
+        
+        if(GameService.Instance.PlayerManager.playerMoney > item.buyingPrice && item.quantity>0 && GameService.Instance.PlayerManager.playerCurrentLoad< GameService.Instance.PlayerManager.playerMaxLoad)
+        {
+            item.quantity--;
+            GameService.Instance.PlayerManager.playerMoney = GameService.Instance.PlayerManager.playerMoney - item.buyingPrice;
+            GameService.Instance.PlayerManager.playerCurrentLoad = item.weight;
+        }
+    }
     private void ResetQuant(int i)
     {
         quant = 1;

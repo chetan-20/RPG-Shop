@@ -7,7 +7,9 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] internal TMP_Text playerCreditstext;
     [SerializeField] private GameObject playerItemPrefab;
-    internal int playerMoney;   
+    internal int playerMoney;
+    internal float playerCurrentLoad = 0;
+    internal float playerMaxLoad=100;
     private void Start()
     {
         playerMoney = 0;
