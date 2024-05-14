@@ -16,6 +16,6 @@ MonoBehaviour:
   itemDescription: Wood Logs
   buyingPrice: 5
   weight: 5
-  quantity: 20
+  quantity: 10
   itemRarity: 0
   itemType: 0

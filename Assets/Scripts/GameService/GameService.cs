@@ -6,12 +6,10 @@ public class GameService : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private ShopManager shopManager;
-    [SerializeField] private CoinGen coinGen;
     public static GameService Instance { get { return instance; } }
     private static GameService instance;   
     public ShopManager ShopManager { get { return shopManager; } }  
-    public PlayerManager PlayerManager { get { return playerManager; }  }
-    public CoinGen CoinGen { get { return CoinGen;} }    
+    public PlayerManager PlayerManager { get { return playerManager; }  }   
     private void Awake()
     {
         if (instance == null)

@@ -23,43 +23,59 @@ public class ShopManager : MonoBehaviour
     public void LoadWeaponItems()=> ConnectSOtoUI(weaponItemsSO);   
     public void LoadConsumablesItems()=> ConnectSOtoUI(consumablesItemsSO);   
     public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
-
-    public void OnClickBuyButton(int i)
-    {
-        itemsTemplate[i].buyButton.gameObject.SetActive(false);
-        itemsTemplate[i].quantityPanel.SetActive(true);       
+    private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
+    public void OnClickBuyButton()
+    {        
+        Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();      
+        GameObject parentGameObject = button.transform.parent.gameObject;
+        ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
+        itemsTemplate.buyButton.gameObject.SetActive(false);
+        itemsTemplate.quantityPanel.SetActive(true);       
     }
-
-    public void OnClickCancelButton(int i)
+    public void OnClickCancelButton()
     {
-        itemsTemplate[i].buyButton.gameObject.SetActive(true);
-        itemsTemplate[i].quantityPanel.SetActive(false);
-        ResetQuant(i);
+        Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        GameObject parentGameObject = button.transform.parent.parent.gameObject;
+        ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
+        itemsTemplate.buyButton.gameObject.SetActive(true);
+        itemsTemplate.quantityPanel.SetActive(false);
+        ResetQuant(itemsTemplate);
     }
-    public void IncreaseQuantity(int i)
+    public void IncreaseQuantity()
     {
-        if (quant < int.Parse(itemsTemplate[i].QuantityText.text))
+        Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        GameObject parentGameObject = button.transform.parent.parent.gameObject;
+        ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
+        if (quant < int.Parse(itemsTemplate.QuantityText.text))
         {
             quant++;
-            itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+            itemsTemplate.selectQuantityText.text = selectquant + quant;
         }
         else
         {
-            itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+            itemsTemplate.selectQuantityText.text = selectquant + quant;
         }
     }
-    public void DecreaseQuantity(int i)
+    public void DecreaseQuantity()
     {
+        Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        GameObject parentGameObject = button.transform.parent.parent.gameObject;
+        ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
         if (quant < 1)
         {
             quant = 1;
-            itemsTemplate[i].selectQuantityText.text = selectquant + quant;
+            itemsTemplate.selectQuantityText.text = selectquant + quant;
         }
         else
         {      
-            itemsTemplate[i].selectQuantityText.text = selectquant + quant; 
+            itemsTemplate.selectQuantityText.text = selectquant + quant; 
             quant--;
         }
+    } 
+    private void ResetQuant(ItemsTemplate itemT)
+    {      
+        quant = 1;
+        itemT.selectQuantityText.text = selectquant + quant;
     }
     public void GenerateCoin()
     {
@@ -77,14 +93,10 @@ public class ShopManager : MonoBehaviour
             item.quantity--;
             GameService.Instance.PlayerManager.playerMoney = GameService.Instance.PlayerManager.playerMoney - item.buyingPrice;
             GameService.Instance.PlayerManager.playerCurrentLoad = item.weight;
+            GameService.Instance.PlayerManager.UpdateInventory(item);
+            GameService.Instance.PlayerManager.UpdateCredits();
         }
-    }
-    private void ResetQuant(int i)
-    {
-        quant = 1;
-        itemsTemplate[i].selectQuantityText.text = selectquant + quant;
-    }
-    private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
+    }  
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
     {
         DisableAllItems();
@@ -98,6 +110,8 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].QuantityText.text = shopItemsSO[i].quantity.ToString();
             itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();
             itemsTemplate[i].itemType = shopItemsSO[i].itemType;
+            ResetBuyButton(i);
+            ResetQuant(itemsTemplate[i]);
         }
         ResetSCrollRect();       
     }
@@ -107,5 +121,10 @@ public class ShopManager : MonoBehaviour
         {
             itemsTemplate[i].gameObject.SetActive(false);
         }
+    }
+    private void ResetBuyButton(int i)
+    {
+        itemsTemplate[i].buyButton.gameObject.SetActive(true);
+        itemsTemplate[i].quantityPanel.SetActive(false);
     }
 }
