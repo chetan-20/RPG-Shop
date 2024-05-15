@@ -112,7 +112,8 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].descriptionText.text = shopItemsSO[i].itemDescription;
             itemsTemplate[i].itemweightText.text = shopItemsSO[i].weight.ToString();
             itemsTemplate[i].QuantityText.text = shopItemsSO[i].quantity.ToString();
-            itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();          
+            itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();
+            itemsTemplate[i].uniqueTemplateID = shopItemsSO[i].uniqueID;
             ResetBuyButton(i);
             ResetQuant(itemsTemplate[i]);
         }

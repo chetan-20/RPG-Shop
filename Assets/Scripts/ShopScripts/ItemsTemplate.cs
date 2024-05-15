@@ -21,4 +21,5 @@ public class ItemsTemplate : MonoBehaviour
     [SerializeField] internal Button cancelButton;
     internal ShopItemsSO itemSO;
     internal int playerItemQuantity;
+    internal int uniqueTemplateID;
 }

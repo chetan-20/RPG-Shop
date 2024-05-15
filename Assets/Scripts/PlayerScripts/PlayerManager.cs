@@ -20,9 +20,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerMoney > item.itemSO.buyingPrice*quantity && item.itemSO.quantity> 0 && playerCurrentLoad < playerMaxLoad)
         {
-            if (playerInventory.ContainsKey(item.itemSO.uniqueID))
+            if (playerInventory.ContainsKey(item.uniqueTemplateID))
             {
-                Debug.Log("Same Item");
+                ItemsTemplate existingItem = playerInventory[item.uniqueTemplateID];
+                existingItem.playerItemQuantity += quantity;
+                existingItem.QuantityText.text = existingItem.playerItemQuantity.ToString();
+                existingItem.itemSO.quantity -= quantity;
             }
             else
             {
@@ -33,7 +36,7 @@ public class PlayerManager : MonoBehaviour
                 ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
                 playerItem.playerItemQuantity = quantity;
                 SetPlayerItem(playerItem, item, quantity);
-                playerInventory.Add(playerItem.itemSO.uniqueID, playerItem);
+                playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
                 UpdateCredits();
             }
         }
@@ -41,13 +44,14 @@ public class PlayerManager : MonoBehaviour
    
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
     {
+        PlayerItem.itemSO = shopItem.itemSO;
         PlayerItem.priceText.text = shopItem.priceText.text;       
         PlayerItem.itemweightText.text = shopItem.itemweightText.text;       
         PlayerItem.descriptionText.text = shopItem.descriptionText.text;        
         PlayerItem.iconImage.sprite = shopItem.iconImage.sprite;
         PlayerItem.rarityText.text = shopItem.rarityText.text;
         PlayerItem.QuantityText.text = quantity.ToString();
-        PlayerItem.itemSO.uniqueID = shopItem.itemSO.uniqueID;
+        PlayerItem.uniqueTemplateID = shopItem.uniqueTemplateID;
     }
     public void UpdateCredits()
     {
