@@ -52,6 +52,10 @@ public class PlayerManager : MonoBehaviour
         {
             playerItem.playerTempItemQuantity -= quant;
             playerItem.itemSO.quantity += quant;
+            if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Common)
+            {
+                playerMoney += (playerItem.itemSO.buyingPrice * quant) + 2;
+            }
         }
     }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
@@ -68,6 +72,7 @@ public class PlayerManager : MonoBehaviour
         PlayerItem.cancelButton.onClick.AddListener(GameService.Instance.ShopManager.OnClickCancelButton);
         PlayerItem.increaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.IncreaseQuantity);
         PlayerItem.decreaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.DecreaseQuantity);
+        PlayerItem.purhcaseButton.onClick.AddListener(() => SellInventoryItem(PlayerItem, quantity));
     }
     public void UpdateCredits()
     {

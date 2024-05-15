@@ -12,7 +12,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopItemsSO[] treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
     [SerializeField] private ScrollRect scrollRect;
-    private int quant = 1;
+    internal int quant = 1;
     private string selectquant = "Select Quantity : ";
     private void Start()
     {
@@ -114,12 +114,13 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].QuantityText.text = shopItemsSO[i].quantity.ToString();
             itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();
             itemsTemplate[i].uniqueTemplateID = shopItemsSO[i].uniqueID;
+            itemsTemplate[i].itemRarity = shopItemsSO[i].itemRarity;
             ResetBuyButton(i);
             ResetQuant(itemsTemplate[i]);
         }
         ResetSCrollRect();       
     }
-    private void RefreshShopUI(ItemsTemplate itemsT)
+    public void RefreshShopUI(ItemsTemplate itemsT)
     {
         if(itemsT.itemSO.itemType == ShopItemsSO.type.Material)
         {
