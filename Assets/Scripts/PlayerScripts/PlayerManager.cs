@@ -8,34 +8,46 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] internal TMP_Text playerCreditstext;
     [SerializeField] private GameObject playerItemPrefab;
     [SerializeField] private GameObject playerItemParent;
+    private Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
     internal int playerMoney;
     internal float playerCurrentLoad = 0;
-    internal float playerMaxLoad=100;
+    internal float playerMaxLoad=65;
     private void Start()
     {
         playerMoney = 0;
     }
-    public void UpdateInventory(ItemsTemplate item)
+    public void UpdateInventory(ItemsTemplate item,int quantity)
     {
-        if (playerMoney > item.itemSO.buyingPrice && item.itemSO.quantity> 0 && playerCurrentLoad < playerMaxLoad)
+        if (playerMoney > item.itemSO.buyingPrice*quantity && item.itemSO.quantity> 0 && playerCurrentLoad < playerMaxLoad)
         {
-            item.itemSO.quantity--;
-            playerMoney -= item.itemSO.buyingPrice;
-            playerCurrentLoad += item.itemSO.weight;
-            GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
-            ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();          
-            SetPlayerItem(playerItem, item);
-            UpdateCredits();
+            if (playerInventory.ContainsKey(item.itemSO.uniqueID))
+            {
+                Debug.Log("Same Item");
+            }
+            else
+            {
+                item.itemSO.quantity -= quantity;
+                playerMoney -= item.itemSO.buyingPrice * quantity;
+                playerCurrentLoad += quantity * item.itemSO.weight;
+                GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
+                ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
+                playerItem.playerItemQuantity = quantity;
+                SetPlayerItem(playerItem, item, quantity);
+                playerInventory.Add(playerItem.itemSO.uniqueID, playerItem);
+                UpdateCredits();
+            }
         }
     }
-
-    private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem)
+   
+    private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
     {
         PlayerItem.priceText.text = shopItem.priceText.text;       
         PlayerItem.itemweightText.text = shopItem.itemweightText.text;       
         PlayerItem.descriptionText.text = shopItem.descriptionText.text;        
         PlayerItem.iconImage.sprite = shopItem.iconImage.sprite;
-        PlayerItem.rarityText.text = shopItem.rarityText.text;      
+        PlayerItem.rarityText.text = shopItem.rarityText.text;
+        PlayerItem.QuantityText.text = quantity.ToString();
+        PlayerItem.itemSO.uniqueID = shopItem.itemSO.uniqueID;
     }
     public void UpdateCredits()
     {

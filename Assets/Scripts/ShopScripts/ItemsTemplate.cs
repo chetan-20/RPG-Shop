@@ -19,5 +19,6 @@ public class ItemsTemplate : MonoBehaviour
     [SerializeField] internal Button decreaseQuantityButton;
     [SerializeField] internal Button purhcaseButton;
     [SerializeField] internal Button cancelButton;
-    internal ShopItemsSO itemSO;       
+    internal ShopItemsSO itemSO;
+    internal int playerItemQuantity;
 }

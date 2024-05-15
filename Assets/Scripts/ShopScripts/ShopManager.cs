@@ -89,8 +89,16 @@ public class ShopManager : MonoBehaviour
     {
         Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         GameObject parentGameObject = button.transform.parent.parent.gameObject;
-        ItemsTemplate item = parentGameObject.GetComponent<ItemsTemplate>();      
-        GameService.Instance.PlayerManager.UpdateInventory(item);                  
+        ItemsTemplate item = parentGameObject.GetComponent<ItemsTemplate>();
+        if (item.itemSO.quantity > 0)
+        {
+            GameService.Instance.PlayerManager.UpdateInventory(item, quant);
+            RefreshShopUI(item);
+        }
+        else
+        {
+            Debug.Log("Item Not Available");
+        }
     }  
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
     {
@@ -109,6 +117,25 @@ public class ShopManager : MonoBehaviour
             ResetQuant(itemsTemplate[i]);
         }
         ResetSCrollRect();       
+    }
+    private void RefreshShopUI(ItemsTemplate itemsT)
+    {
+        if(itemsT.itemSO.itemType == ShopItemsSO.type.Material)
+        {
+            LoadMaterialItems();
+        }
+        if (itemsT.itemSO.itemType == ShopItemsSO.type.Weapon)
+        {
+            LoadWeaponItems();
+        }
+        if (itemsT.itemSO.itemType == ShopItemsSO.type.Consumable)
+        {
+            LoadConsumablesItems();
+        }
+        if (itemsT.itemSO.itemType == ShopItemsSO.type.Treause)
+        {
+            LoadTreasureItems();
+        }
     }
    private void DisableAllItems()
     {
