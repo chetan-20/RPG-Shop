@@ -52,6 +52,10 @@ public class PlayerManager : MonoBehaviour
         PlayerItem.rarityText.text = shopItem.rarityText.text;
         PlayerItem.QuantityText.text = quantity.ToString();
         PlayerItem.uniqueTemplateID = shopItem.uniqueTemplateID;
+        PlayerItem.buyButton.onClick.AddListener(GameService.Instance.ShopManager.OnClickBuyButton);
+        PlayerItem.cancelButton.onClick.AddListener(GameService.Instance.ShopManager.OnClickCancelButton);
+        PlayerItem.increaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.IncreaseQuantity);
+        PlayerItem.decreaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.DecreaseQuantity);
     }
     public void UpdateCredits()
     {
