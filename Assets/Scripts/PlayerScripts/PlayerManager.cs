@@ -23,9 +23,13 @@ public class PlayerManager : MonoBehaviour
             if (playerInventory.ContainsKey(item.uniqueTemplateID))
             {
                 ItemsTemplate existingItem = playerInventory[item.uniqueTemplateID];
-                existingItem.playerItemQuantity += quantity;
-                existingItem.QuantityText.text = existingItem.playerItemQuantity.ToString();
+                existingItem.playerTempItemQuantity += quantity;
+                existingItem.QuantityText.text = existingItem.playerTempItemQuantity.ToString();
                 existingItem.itemSO.quantity -= quantity;
+                playerMoney -= existingItem.itemSO.buyingPrice * quantity;
+                playerCurrentLoad += existingItem.itemSO.weight * quantity;                
+                Debug.Log(playerCurrentLoad);
+                UpdateCredits();
             }
             else
             {
@@ -34,14 +38,22 @@ public class PlayerManager : MonoBehaviour
                 playerCurrentLoad += quantity * item.itemSO.weight;
                 GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
                 ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
-                playerItem.playerItemQuantity = quantity;
+                playerItem.playerTempItemQuantity = quantity;
                 SetPlayerItem(playerItem, item, quantity);
                 playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
+                Debug.Log(playerCurrentLoad);
                 UpdateCredits();
             }
         }
     }
-   
+    private void SellInventoryItem(ItemsTemplate playerItem,int quant)
+    {
+        if (playerItem.playerTempItemQuantity > 0)
+        {
+            playerItem.playerTempItemQuantity -= quant;
+            playerItem.itemSO.quantity += quant;
+        }
+    }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
     {
         PlayerItem.itemSO = shopItem.itemSO;
