@@ -16,6 +16,7 @@ MonoBehaviour:
   itemDescription: Increases Stealth
   buyingPrice: 20
   weight: 10
-  quantity: 3
+  quantity: 5
   itemRarity: 2
   itemType: 2
+  uniqueID: 25

@@ -16,6 +16,7 @@ MonoBehaviour:
   itemDescription: Removes Hunger Debuff
   buyingPrice: 15
   weight: 5
-  quantity: 5
+  quantity: 10
   itemRarity: 0
   itemType: 2
+  uniqueID: 19

@@ -19,3 +19,4 @@ MonoBehaviour:
   quantity: 3
   itemRarity: 1
   itemType: 3
+  uniqueID: 30

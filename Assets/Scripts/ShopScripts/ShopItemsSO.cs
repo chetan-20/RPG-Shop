@@ -14,6 +14,7 @@ public class ShopItemsSO : ScriptableObject
     [SerializeField] internal int quantity;
     [SerializeField] internal rarity itemRarity;
     [SerializeField] internal type itemType;
+    [SerializeField] internal int uniqueID;
     internal enum rarity
     {
         Common,

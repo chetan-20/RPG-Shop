@@ -16,6 +16,7 @@ MonoBehaviour:
   itemDescription: Increases Health Over Time(30 Seconds)
   buyingPrice: 20
   weight: 10
-  quantity: 9
+  quantity: 10
   itemRarity: 1
   itemType: 2
+  uniqueID: 20

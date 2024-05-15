@@ -16,6 +16,7 @@ MonoBehaviour:
   itemDescription: Apple a day Keeps Healers Away
   buyingPrice: 5
   weight: 3
-  quantity: 18
+  quantity: 20
   itemRarity: 0
   itemType: 2
+  uniqueID: 23

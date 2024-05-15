@@ -85,31 +85,26 @@ public class ShopManager : MonoBehaviour
         }
         GameService.Instance.PlayerManager.UpdateCredits();
     }
-    public void SellShopItem(ShopItemsSO item)
+    public void SellShopItem()
     {
-        
-        if(GameService.Instance.PlayerManager.playerMoney > item.buyingPrice && item.quantity>0 && GameService.Instance.PlayerManager.playerCurrentLoad< GameService.Instance.PlayerManager.playerMaxLoad)
-        {
-            item.quantity--;
-            GameService.Instance.PlayerManager.playerMoney = GameService.Instance.PlayerManager.playerMoney - item.buyingPrice;
-            GameService.Instance.PlayerManager.playerCurrentLoad = item.weight;
-            GameService.Instance.PlayerManager.UpdateInventory(item);
-            GameService.Instance.PlayerManager.UpdateCredits();
-        }
+        Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        GameObject parentGameObject = button.transform.parent.parent.gameObject;
+        ItemsTemplate item = parentGameObject.GetComponent<ItemsTemplate>();      
+        GameService.Instance.PlayerManager.UpdateInventory(item);                  
     }  
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
     {
         DisableAllItems();
         for(int i=0; i<shopItemsSO.Length; i++)
         {
+            itemsTemplate[i].itemSO = shopItemsSO[i]; 
             itemsTemplate[i].gameObject.SetActive(true);
             itemsTemplate[i].priceText.text = shopItemsSO[i].buyingPrice.ToString();
             itemsTemplate[i].iconImage.sprite = shopItemsSO[i].icon;
             itemsTemplate[i].descriptionText.text = shopItemsSO[i].itemDescription;
             itemsTemplate[i].itemweightText.text = shopItemsSO[i].weight.ToString();
             itemsTemplate[i].QuantityText.text = shopItemsSO[i].quantity.ToString();
-            itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();
-            itemsTemplate[i].itemType = shopItemsSO[i].itemType;
+            itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();          
             ResetBuyButton(i);
             ResetQuant(itemsTemplate[i]);
         }

@@ -15,9 +15,27 @@ public class PlayerManager : MonoBehaviour
     {
         playerMoney = 0;
     }
-    public void UpdateInventory(ShopItemsSO item)
+    public void UpdateInventory(ItemsTemplate item)
     {
-        Instantiate(playerItemPrefab,parent:playerItemParent.transform);
+        if (playerMoney > item.itemSO.buyingPrice && item.itemSO.quantity> 0 && playerCurrentLoad < playerMaxLoad)
+        {
+            item.itemSO.quantity--;
+            playerMoney -= item.itemSO.buyingPrice;
+            playerCurrentLoad += item.itemSO.weight;
+            GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
+            ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();          
+            SetPlayerItem(playerItem, item);
+            UpdateCredits();
+        }
+    }
+
+    private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem)
+    {
+        PlayerItem.priceText.text = shopItem.priceText.text;       
+        PlayerItem.itemweightText.text = shopItem.itemweightText.text;       
+        PlayerItem.descriptionText.text = shopItem.descriptionText.text;        
+        PlayerItem.iconImage.sprite = shopItem.iconImage.sprite;
+        PlayerItem.rarityText.text = shopItem.rarityText.text;      
     }
     public void UpdateCredits()
     {
