@@ -100,6 +100,7 @@ public class ShopManager : MonoBehaviour
             GameService.Instance.PlayerManager.UpdateInventory(item, item.itemIncDecQuantity);
             ResetBuyButton(item);
             RefreshShopUI(item);
+            Debug.Log("Current Player Load : " + GameService.Instance.PlayerManager.playerCurrentLoad);
         }
         else
         {

@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void UpdateInventory(ItemsTemplate item,int quantity)
     {
-        if (playerMoney > item.itemSO.buyingPrice*quantity && item.itemSO.quantity> 0 && playerCurrentLoad < playerMaxLoad)
+        if (playerMoney > item.itemSO.buyingPrice*quantity  && (playerCurrentLoad+(item.itemSO.weight*quantity)) < playerMaxLoad)
         {
             if (playerInventory.ContainsKey(item.uniqueTemplateID))
             {
@@ -48,13 +48,18 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log("Current player item amount : " + playerItem.tempItemQuantity);
             }
         }
+        else
+        {
+            Debug.Log("Cant Go Over Max Weight");
+        }
     }
     private void SellInventoryItem(ItemsTemplate playerItem)
     {
         if (playerItem.tempItemQuantity > 0 )
         {
             playerItem.tempItemQuantity -= playerItem.itemIncDecQuantity;
-            playerItem.itemSO.quantity += playerItem.itemIncDecQuantity;           
+            playerItem.itemSO.quantity += playerItem.itemIncDecQuantity;
+            playerCurrentLoad -= playerItem.itemIncDecQuantity*playerItem.itemSO.weight;
             if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Common)
             {
                 playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 2;
@@ -64,11 +69,13 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("Current SO item amount : " + playerItem.itemSO.quantity);
             GameService.Instance.ShopManager.RefreshShopUI(playerItem);
             RefreshPlayerInventory(playerItem);
+            Debug.Log("Current Player Load : " + GameService.Instance.PlayerManager.playerCurrentLoad);
         }
         else
         {
             RefreshPlayerInventory(playerItem);
             GameService.Instance.ShopManager.ResetBuyButton(playerItem);
+            Debug.Log("Current Player Load : " + GameService.Instance.PlayerManager.playerCurrentLoad);
         }
     }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
@@ -92,14 +99,14 @@ public class PlayerManager : MonoBehaviour
     private void RefreshPlayerInventory(ItemsTemplate playerItem)
     {
         if (playerItem.tempItemQuantity > 0)
-        {
-            playerItem.gameObject.SetActive(true);
+        {           
             playerItem.QuantityText.text = playerItem.tempItemQuantity.ToString();
             UpdateCredits();
         }
         else
         {
-            playerItem.gameObject.SetActive(false);
+            playerInventory.Remove(playerItem.uniqueTemplateID);
+            Destroy(playerItem.gameObject);
             UpdateCredits();          
         }
     }
