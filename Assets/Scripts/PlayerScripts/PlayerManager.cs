@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour
                 // Debug.Log(playerCurrentLoad);
                 UpdateCredits();
                 Debug.Log("Current player item amount : " + existingItem.tempItemQuantity);
+                RefreshPlayerInventory(existingItem);
             }
             else
             {
@@ -58,14 +59,16 @@ public class PlayerManager : MonoBehaviour
             {
                 playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 2;
             }
-            GameService.Instance.ShopManager.ResetBuyButton(playerItem);
-            UpdateCredits();
+            GameService.Instance.ShopManager.ResetBuyButton(playerItem);          
             Debug.Log("Current player item amount : "+playerItem.tempItemQuantity);
             Debug.Log("Current SO item amount : " + playerItem.itemSO.quantity);
+            GameService.Instance.ShopManager.RefreshShopUI(playerItem);
+            RefreshPlayerInventory(playerItem);
         }
         else
-        {           
-           GameService.Instance.ShopManager.ResetBuyButton(playerItem);
+        {
+            RefreshPlayerInventory(playerItem);
+            GameService.Instance.ShopManager.ResetBuyButton(playerItem);
         }
     }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
@@ -85,6 +88,20 @@ public class PlayerManager : MonoBehaviour
         PlayerItem.decreaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.DecreaseQuantity);
         PlayerItem.purhcaseButton.onClick.AddListener(() => SellInventoryItem(PlayerItem));
         GameService.Instance.ShopManager.ResetBuyButton(PlayerItem);
+    }
+    private void RefreshPlayerInventory(ItemsTemplate playerItem)
+    {
+        if (playerItem.tempItemQuantity > 0)
+        {
+            playerItem.gameObject.SetActive(true);
+            playerItem.QuantityText.text = playerItem.tempItemQuantity.ToString();
+            UpdateCredits();
+        }
+        else
+        {
+            playerItem.gameObject.SetActive(false);
+            UpdateCredits();          
+        }
     }
     public void UpdateCredits()
     {
