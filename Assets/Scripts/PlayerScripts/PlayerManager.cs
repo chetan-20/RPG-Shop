@@ -23,13 +23,15 @@ public class PlayerManager : MonoBehaviour
             if (playerInventory.ContainsKey(item.uniqueTemplateID))
             {
                 ItemsTemplate existingItem = playerInventory[item.uniqueTemplateID];
-                existingItem.playerTempItemQuantity += quantity;
-                existingItem.QuantityText.text = existingItem.playerTempItemQuantity.ToString();
+                existingItem.tempItemQuantity += quantity;
+                existingItem.QuantityText.text = existingItem.tempItemQuantity.ToString();
                 existingItem.itemSO.quantity -= quantity;
                 playerMoney -= existingItem.itemSO.buyingPrice * quantity;
-                playerCurrentLoad += existingItem.itemSO.weight * quantity;                
-                Debug.Log(playerCurrentLoad);
+                playerCurrentLoad += existingItem.itemSO.weight * quantity;
+                GameService.Instance.ShopManager.ResetBuyButton(existingItem);
+                // Debug.Log(playerCurrentLoad);
                 UpdateCredits();
+                Debug.Log("Current player item amount : " + existingItem.tempItemQuantity);
             }
             else
             {
@@ -37,29 +39,38 @@ public class PlayerManager : MonoBehaviour
                 playerMoney -= item.itemSO.buyingPrice * quantity;
                 playerCurrentLoad += quantity * item.itemSO.weight;
                 GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
-                ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
-                playerItem.playerTempItemQuantity = quantity;
+                ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();               
                 SetPlayerItem(playerItem, item, quantity);
                 playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
-                Debug.Log(playerCurrentLoad);
+               // Debug.Log(playerCurrentLoad);
                 UpdateCredits();
+                Debug.Log("Current player item amount : " + playerItem.tempItemQuantity);
             }
         }
     }
-    private void SellInventoryItem(ItemsTemplate playerItem,int quant)
+    private void SellInventoryItem(ItemsTemplate playerItem)
     {
-        if (playerItem.playerTempItemQuantity > 0)
+        if (playerItem.tempItemQuantity > 0 )
         {
-            playerItem.playerTempItemQuantity -= quant;
-            playerItem.itemSO.quantity += quant;
+            playerItem.tempItemQuantity -= playerItem.itemIncDecQuantity;
+            playerItem.itemSO.quantity += playerItem.itemIncDecQuantity;           
             if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Common)
             {
-                playerMoney += (playerItem.itemSO.buyingPrice * quant) + 2;
+                playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 2;
             }
+            GameService.Instance.ShopManager.ResetBuyButton(playerItem);
+            UpdateCredits();
+            Debug.Log("Current player item amount : "+playerItem.tempItemQuantity);
+            Debug.Log("Current SO item amount : " + playerItem.itemSO.quantity);
+        }
+        else
+        {           
+           GameService.Instance.ShopManager.ResetBuyButton(playerItem);
         }
     }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
     {
+        PlayerItem.tempItemQuantity = quantity;
         PlayerItem.itemSO = shopItem.itemSO;
         PlayerItem.priceText.text = shopItem.priceText.text;       
         PlayerItem.itemweightText.text = shopItem.itemweightText.text;       
@@ -72,7 +83,8 @@ public class PlayerManager : MonoBehaviour
         PlayerItem.cancelButton.onClick.AddListener(GameService.Instance.ShopManager.OnClickCancelButton);
         PlayerItem.increaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.IncreaseQuantity);
         PlayerItem.decreaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.DecreaseQuantity);
-        PlayerItem.purhcaseButton.onClick.AddListener(() => SellInventoryItem(PlayerItem, quantity));
+        PlayerItem.purhcaseButton.onClick.AddListener(() => SellInventoryItem(PlayerItem));
+        GameService.Instance.ShopManager.ResetBuyButton(PlayerItem);
     }
     public void UpdateCredits()
     {

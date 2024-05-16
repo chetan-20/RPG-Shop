@@ -12,7 +12,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopItemsSO[] treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
     [SerializeField] private ScrollRect scrollRect;
-    internal int quant = 1;
+    //internal int quant = 1;
     private string selectquant = "Select Quantity : ";
     private void Start()
     {
@@ -25,12 +25,15 @@ public class ShopManager : MonoBehaviour
     public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
     private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
     public void OnClickBuyButton()
-    {        
+    {     
+          
         Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();      
         GameObject parentGameObject = button.transform.parent.gameObject;
         ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
+        ResetQuant(itemsTemplate);
         itemsTemplate.buyButton.gameObject.SetActive(false);
-        itemsTemplate.quantityPanel.SetActive(true);       
+        itemsTemplate.quantityPanel.SetActive(true);
+        
     }
     public void OnClickCancelButton()
     {
@@ -43,17 +46,18 @@ public class ShopManager : MonoBehaviour
     }
     public void IncreaseQuantity()
     {
+       
         Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         GameObject parentGameObject = button.transform.parent.parent.gameObject;
         ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
-        if (quant < int.Parse(itemsTemplate.QuantityText.text))
+        if (itemsTemplate.itemIncDecQuantity<itemsTemplate.tempItemQuantity)
         {
-            quant++;
-            itemsTemplate.selectQuantityText.text = selectquant + quant;
+            itemsTemplate.itemIncDecQuantity++;
+            itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
         }
         else
         {
-            itemsTemplate.selectQuantityText.text = selectquant + quant;
+            itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
         }
     }
     public void DecreaseQuantity()
@@ -61,21 +65,21 @@ public class ShopManager : MonoBehaviour
         Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         GameObject parentGameObject = button.transform.parent.parent.gameObject;
         ItemsTemplate itemsTemplate = parentGameObject.GetComponent<ItemsTemplate>();
-        if (quant < 1)
+        if (itemsTemplate.itemIncDecQuantity < 1)
         {
-            quant = 1;
-            itemsTemplate.selectQuantityText.text = selectquant + quant;
+            itemsTemplate.itemIncDecQuantity = 1;
+            itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
         }
         else
         {      
-            itemsTemplate.selectQuantityText.text = selectquant + quant; 
-            quant--;
+            itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
+            itemsTemplate.itemIncDecQuantity--;
         }
     } 
-    private void ResetQuant(ItemsTemplate itemT)
+    public void ResetQuant(ItemsTemplate itemT)
     {      
-        quant = 1;
-        itemT.selectQuantityText.text = selectquant + quant;
+        itemT.itemIncDecQuantity = 1;
+        itemT.selectQuantityText.text = selectquant + itemT.itemIncDecQuantity;
     }
     public void GenerateCoin()
     {
@@ -92,7 +96,9 @@ public class ShopManager : MonoBehaviour
         ItemsTemplate item = parentGameObject.GetComponent<ItemsTemplate>();
         if (item.itemSO.quantity > 0)
         {
-            GameService.Instance.PlayerManager.UpdateInventory(item, quant);
+            Debug.Log("Quantity Given By Shop : " + item.itemIncDecQuantity);
+            GameService.Instance.PlayerManager.UpdateInventory(item, item.itemIncDecQuantity);
+            ResetBuyButton(item);
             RefreshShopUI(item);
         }
         else
@@ -105,6 +111,7 @@ public class ShopManager : MonoBehaviour
         DisableAllItems();
         for(int i=0; i<shopItemsSO.Length; i++)
         {
+            itemsTemplate[i].tempItemQuantity = shopItemsSO[i].quantity;
             itemsTemplate[i].itemSO = shopItemsSO[i]; 
             itemsTemplate[i].gameObject.SetActive(true);
             itemsTemplate[i].priceText.text = shopItemsSO[i].buyingPrice.ToString();
@@ -114,9 +121,10 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].QuantityText.text = shopItemsSO[i].quantity.ToString();
             itemsTemplate[i].rarityText.text = shopItemsSO[i].itemRarity.ToString();
             itemsTemplate[i].uniqueTemplateID = shopItemsSO[i].uniqueID;
-            itemsTemplate[i].itemRarity = shopItemsSO[i].itemRarity;
-            ResetBuyButton(i);
-            ResetQuant(itemsTemplate[i]);
+            itemsTemplate[i].itemRarity = shopItemsSO[i].itemRarity;          
+            itemsTemplate[i].buyButton.gameObject.SetActive(true);
+            itemsTemplate[i].quantityPanel.SetActive(false);
+            ResetBuyButton(itemsTemplate[i]);
         }
         ResetSCrollRect();       
     }
@@ -139,6 +147,12 @@ public class ShopManager : MonoBehaviour
             LoadTreasureItems();
         }
     }
+    public void ResetBuyButton(ItemsTemplate itemT)
+    {
+        itemT.buyButton.gameObject.SetActive(true);
+        itemT.quantityPanel.SetActive(false); 
+        ResetQuant(itemT);
+    }
    private void DisableAllItems()
     {
         for(int i =0; i < itemsTemplate.Length; i++)
@@ -146,9 +160,5 @@ public class ShopManager : MonoBehaviour
             itemsTemplate[i].gameObject.SetActive(false);
         }
     }
-    private void ResetBuyButton(int i)
-    {
-        itemsTemplate[i].buyButton.gameObject.SetActive(true);
-        itemsTemplate[i].quantityPanel.SetActive(false);
-    }
+    
 }
