@@ -19,7 +19,9 @@ public class PlayerManager : MonoBehaviour
     }
     public void UpdateInventory(ItemsTemplate item,int quantity)
     {
-        if (playerMoney > item.itemSO.buyingPrice*quantity  && (playerCurrentLoad+(item.itemSO.weight*quantity)) < playerMaxLoad)
+        float totalPrice = item.itemSO.buyingPrice * quantity;
+        float totalWeight = item.itemSO.weight * quantity;
+        if (playerMoney >= totalPrice && (playerCurrentLoad + totalWeight) <= playerMaxLoad)
         {
             if (playerInventory.ContainsKey(item.uniqueTemplateID))
             {
@@ -29,7 +31,7 @@ public class PlayerManager : MonoBehaviour
                 existingItem.itemSO.quantity -= quantity;
                 playerMoney -= existingItem.itemSO.buyingPrice * quantity;
                 playerCurrentLoad += existingItem.itemSO.weight * quantity;
-                GameService.Instance.ShopManager.ResetBuyButton(existingItem);                                
+                GameService.Instance.ShopManager.ResetBuyButton(existingItem);
                 RefreshPlayerInventory(existingItem);
             }
             else
@@ -38,16 +40,23 @@ public class PlayerManager : MonoBehaviour
                 playerMoney -= item.itemSO.buyingPrice * quantity;
                 playerCurrentLoad += quantity * item.itemSO.weight;
                 GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
-                ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();               
+                ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
                 SetPlayerItem(playerItem, item, quantity);
-                playerInventory.Add(playerItem.uniqueTemplateID, playerItem);               
+                playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
                 UpdateCredits();
-                UpdatePlayerLoad();                
+                UpdatePlayerLoad();
             }
         }
-        else
-        {
-            Debug.Log("Cant Go Over Max Weight");
+        else {
+            
+            if(playerMoney < totalPrice)
+            {   
+                Debug.Log("Broke boi");
+            }
+            else  if(playerCurrentLoad + totalWeight >= playerMaxLoad)
+            {
+                Debug.Log("Cant Go Over Max Weight");
+            }
         }
     }
     private void SellInventoryItem(ItemsTemplate playerItem)
