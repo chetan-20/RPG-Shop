@@ -94,7 +94,9 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Item Not Available");
+            GameService.Instance.popUpMsgGameobject.SetActive(true);
+            GameService.Instance.popUpMsgText.text="Item Not Available";
+            StartCoroutine(GameService.Instance.DisableAfterDelay());
         }
     }  
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)

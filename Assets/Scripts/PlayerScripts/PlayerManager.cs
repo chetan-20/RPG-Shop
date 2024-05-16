@@ -50,12 +50,16 @@ public class PlayerManager : MonoBehaviour
         else {
             
             if(playerMoney < totalPrice)
-            {   
-                Debug.Log("Broke boi");
+            {
+                GameService.Instance.popUpMsgGameobject.SetActive(true);
+                GameService.Instance.popUpMsgText.text = "Not Enough Credits";
+                StartCoroutine(GameService.Instance.DisableAfterDelay());
             }
             else  if(playerCurrentLoad + totalWeight >= playerMaxLoad)
             {
-                Debug.Log("Cant Go Over Max Weight");
+                GameService.Instance.popUpMsgGameobject.SetActive(true);
+                GameService.Instance.popUpMsgText.text = "Cant Exceed Max Weight";
+                StartCoroutine(GameService.Instance.DisableAfterDelay());
             }
         }
     }
@@ -135,7 +139,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerMoney == 0)
         {
-            playerMoney += UnityEngine.Random.Range(35, 65);
+            playerMoney += UnityEngine.Random.Range(65,75);
         }
         UpdateCredits();
     }
