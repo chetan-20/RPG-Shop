@@ -11,8 +11,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private ShopItemsSO[] consumablesItemsSO;
     [SerializeField] private ShopItemsSO[] treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
-    [SerializeField] private ScrollRect scrollRect;
-    //internal int quant = 1;
+    [SerializeField] private ScrollRect scrollRect;    
     private string selectquant = "Select Quantity : ";
     private void Start()
     {
@@ -81,26 +80,17 @@ public class ShopManager : MonoBehaviour
         itemT.itemIncDecQuantity = 1;
         itemT.selectQuantityText.text = selectquant + itemT.itemIncDecQuantity;
     }
-    public void GenerateCoin()
-    {
-        if (GameService.Instance.PlayerManager.playerMoney == 0)
-        {
-            GameService.Instance.PlayerManager.playerMoney = Random.Range(35, 65);
-        }
-        GameService.Instance.PlayerManager.UpdateCredits();
-    }
+   
     public void SellShopItem()
     {
         Button button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         GameObject parentGameObject = button.transform.parent.parent.gameObject;
         ItemsTemplate item = parentGameObject.GetComponent<ItemsTemplate>();
         if (item.itemSO.quantity > 0)
-        {
-            Debug.Log("Quantity Given By Shop : " + item.itemIncDecQuantity);
+        {           
             GameService.Instance.PlayerManager.UpdateInventory(item, item.itemIncDecQuantity);
             ResetBuyButton(item);
-            RefreshShopUI(item);
-            Debug.Log("Current Player Load : " + GameService.Instance.PlayerManager.playerCurrentLoad);
+            RefreshShopUI(item);           
         }
         else
         {

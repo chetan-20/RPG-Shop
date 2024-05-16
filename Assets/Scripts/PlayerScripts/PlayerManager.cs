@@ -8,10 +8,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] internal TMP_Text playerCreditstext;
     [SerializeField] private GameObject playerItemPrefab;
     [SerializeField] private GameObject playerItemParent;
+    [SerializeField] private TMP_Text playerinventoryLoadText;
     private Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
     internal int playerMoney;
     internal float playerCurrentLoad = 0;
-    internal float playerMaxLoad=65;
+    internal float playerMaxLoad=80;
     private void Start()
     {
         playerMoney = 0;
@@ -28,10 +29,7 @@ public class PlayerManager : MonoBehaviour
                 existingItem.itemSO.quantity -= quantity;
                 playerMoney -= existingItem.itemSO.buyingPrice * quantity;
                 playerCurrentLoad += existingItem.itemSO.weight * quantity;
-                GameService.Instance.ShopManager.ResetBuyButton(existingItem);
-                // Debug.Log(playerCurrentLoad);
-                UpdateCredits();
-                Debug.Log("Current player item amount : " + existingItem.tempItemQuantity);
+                GameService.Instance.ShopManager.ResetBuyButton(existingItem);                                
                 RefreshPlayerInventory(existingItem);
             }
             else
@@ -42,10 +40,9 @@ public class PlayerManager : MonoBehaviour
                 GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
                 ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();               
                 SetPlayerItem(playerItem, item, quantity);
-                playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
-               // Debug.Log(playerCurrentLoad);
+                playerInventory.Add(playerItem.uniqueTemplateID, playerItem);               
                 UpdateCredits();
-                Debug.Log("Current player item amount : " + playerItem.tempItemQuantity);
+                UpdatePlayerLoad();                
             }
         }
         else
@@ -60,22 +57,35 @@ public class PlayerManager : MonoBehaviour
             playerItem.tempItemQuantity -= playerItem.itemIncDecQuantity;
             playerItem.itemSO.quantity += playerItem.itemIncDecQuantity;
             playerCurrentLoad -= playerItem.itemIncDecQuantity*playerItem.itemSO.weight;
-            if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Common)
-            {
-                playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 2;
-            }
-            GameService.Instance.ShopManager.ResetBuyButton(playerItem);          
-            Debug.Log("Current player item amount : "+playerItem.tempItemQuantity);
-            Debug.Log("Current SO item amount : " + playerItem.itemSO.quantity);
+            SellPlusRarityBonus(playerItem);
+            GameService.Instance.ShopManager.ResetBuyButton(playerItem);                              
             GameService.Instance.ShopManager.RefreshShopUI(playerItem);
-            RefreshPlayerInventory(playerItem);
-            Debug.Log("Current Player Load : " + GameService.Instance.PlayerManager.playerCurrentLoad);
+            RefreshPlayerInventory(playerItem);           
         }
         else
         {
             RefreshPlayerInventory(playerItem);
-            GameService.Instance.ShopManager.ResetBuyButton(playerItem);
-            Debug.Log("Current Player Load : " + GameService.Instance.PlayerManager.playerCurrentLoad);
+            GameService.Instance.ShopManager.ResetBuyButton(playerItem);            
+        }
+    }
+
+    private void SellPlusRarityBonus(ItemsTemplate playerItem)
+    {
+        if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Common)
+        {
+            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 2;
+        }
+        else if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Rare)
+        {
+            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 4;
+        }
+        else if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Epic)
+        {
+            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 6;
+        }
+        else
+        {
+            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 8;
         }
     }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
@@ -102,16 +112,30 @@ public class PlayerManager : MonoBehaviour
         {           
             playerItem.QuantityText.text = playerItem.tempItemQuantity.ToString();
             UpdateCredits();
+            UpdatePlayerLoad();
         }
         else
         {
             playerInventory.Remove(playerItem.uniqueTemplateID);
             Destroy(playerItem.gameObject);
-            UpdateCredits();          
+            UpdateCredits();
+            UpdatePlayerLoad();
         }
+    }
+    public void GenerateCoin()
+    {
+        if (playerMoney == 0)
+        {
+            playerMoney += UnityEngine.Random.Range(35, 65);
+        }
+        UpdateCredits();
     }
     public void UpdateCredits()
     {
         playerCreditstext.text = "Credits : " + playerMoney;
+    }
+    private void UpdatePlayerLoad()
+    {
+        playerinventoryLoadText.text = playerCurrentLoad + "/" + playerMaxLoad;
     }
 }
