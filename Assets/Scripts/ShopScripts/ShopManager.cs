@@ -27,7 +27,19 @@ public class ShopManager : MonoBehaviour
     public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
     private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
     private Button GetButton() => UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-    private ItemsTemplate GetItemTemplate(Button button) => button?.transform?.parent?.parent?.GetComponent<ItemsTemplate>();
+    private ItemsTemplate GetItemTemplate(Button button) 
+    {
+        ItemsTemplate template1 = button.transform.parent.GetComponent<ItemsTemplate>();
+        ItemsTemplate template2 = button.transform.parent.parent.GetComponent<ItemsTemplate>();
+        if(template1 != null)
+        {
+            return template1;
+        }
+        else
+        {
+            return template2;
+        }
+    }
 
     public void OnClickBuyButton()
     {
@@ -151,7 +163,5 @@ public class ShopManager : MonoBehaviour
         {
             LoadTreasureItems();
         }
-    }
-    
-    
+    }        
 }
