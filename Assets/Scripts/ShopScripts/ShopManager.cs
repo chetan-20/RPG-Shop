@@ -25,7 +25,7 @@ public class ShopManager : MonoBehaviour
     public void LoadWeaponItems()=> ConnectSOtoUI(weaponItemsSO);   
     public void LoadConsumablesItems()=> ConnectSOtoUI(consumablesItemsSO);   
     public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
-    private void ResetSCrollRect()=> scrollRect.normalizedPosition = new Vector2(0, 1);
+    public void ResetScrollRect(ScrollRect scroll)=> scroll.normalizedPosition = new Vector2(0, 1);
     private Button GetButton() => UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
     private ItemsTemplate GetItemTemplate(Button button) 
     {
@@ -126,7 +126,7 @@ public class ShopManager : MonoBehaviour
         {
             SetItemTemplate(shopItemsSO[i], itemsTemplate[i]);
         }
-        ResetSCrollRect();       
+        ResetScrollRect(scrollRect);       
     }
     private void SetItemTemplate(ShopItemsSO shopItem, ItemsTemplate template)
     {

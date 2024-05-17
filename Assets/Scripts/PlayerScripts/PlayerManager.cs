@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] internal TMP_Text playerCreditstext;
     [SerializeField] private GameObject playerItemPrefab;
     [SerializeField] private GameObject playerItemParent;
     [SerializeField] private TMP_Text playerinventoryLoadText;
+    [SerializeField] private ScrollRect scrollRect;
 
     private Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
     internal int playerMoney;
@@ -34,7 +36,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-           AddOrUpdateItem(item,quantity,totalWeight,totalPrice);
+            AddOrUpdateItem(item,quantity,totalWeight,totalPrice);            
         }        
     }
     private void AddOrUpdateItem(ItemsTemplate item,int quantity,float TotalWeight,int TotalPrice)
@@ -68,6 +70,7 @@ public class PlayerManager : MonoBehaviour
         playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
         UpdateCredits();
         UpdatePlayerLoad();
+        GameService.Instance.ShopManager.ResetScrollRect(scrollRect);
     }  
     private void SellInventoryItem(ItemsTemplate playerItem)
     {
@@ -138,10 +141,12 @@ public class PlayerManager : MonoBehaviour
             playerItem.QuantityText.text = playerItem.tempItemQuantity.ToString();
             UpdateCredits();
             UpdatePlayerLoad();
+            GameService.Instance.ShopManager.ResetScrollRect(scrollRect);
         }
         else
         {
             RemoveFromInventory(playerItem);
+            GameService.Instance.ShopManager.ResetScrollRect(scrollRect);
         }
     }
     private void RemoveFromInventory(ItemsTemplate playerItem)
