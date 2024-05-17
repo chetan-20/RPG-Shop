@@ -162,12 +162,18 @@ public class PlayerManager : MonoBehaviour
     }
     public void GenerateCoin()
     {
-        if (playerMoney == 0)
+        if (playerMoney == 0 && playerInventory.Count==0)
         {
             playerMoney += UnityEngine.Random.Range(65,75);
             GameService.Instance.SoundManager.PlaySound(Sounds.GenerateMoneySound);
+            UpdateCredits();
         }
-        UpdateCredits();
+        else
+        {
+            GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
+            GameService.Instance.ShowPopupMessage("Cant Generate More Coin");
+        }
+       
     }
     public void UpdateCredits()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameService : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameService : MonoBehaviour
     [SerializeField] internal TMP_Text popUpMsgText;
     [SerializeField] internal GameObject popUpMsgGameobject;
     [SerializeField] internal SoundManager soundManager;
+   
     internal float delay = 3f;
 
     public static GameService Instance { get { return instance; } }
@@ -34,6 +36,10 @@ public class GameService : MonoBehaviour
     {
         popUpMsgGameobject.SetActive(false);
     }
+    private void Update()
+    {
+        onEscapePress();
+    }
     public IEnumerator DisableAfterDelay()
     {
        yield return new WaitForSeconds(delay);
@@ -45,4 +51,12 @@ public class GameService : MonoBehaviour
        popUpMsgText.text = message;
        StartCoroutine(DisableAfterDelay());
     }
+    private void onEscapePress()
+    {        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();           
+        }      
+    }
+
 }

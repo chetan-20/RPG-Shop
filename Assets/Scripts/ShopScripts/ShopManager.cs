@@ -83,16 +83,16 @@ public class ShopManager : MonoBehaviour
     {
         Button button = GetButton();
         ItemsTemplate itemsTemplate = GetItemTemplate(button);
-        if (itemsTemplate.itemIncDecQuantity < 1)
+        if (itemsTemplate.itemIncDecQuantity <= 1)
         {
             itemsTemplate.itemIncDecQuantity = 1;
             itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
         }
         else
         {
-            GameService.Instance.SoundManager.PlaySound(Sounds.IncDecQuantitySound);
-            itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
             itemsTemplate.itemIncDecQuantity--;
+            itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity; 
+            GameService.Instance.SoundManager.PlaySound(Sounds.IncDecQuantitySound);                      
         }
     } 
     public void ResetQuant(ItemsTemplate itemT)
