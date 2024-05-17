@@ -9,11 +9,15 @@ public class GameService : MonoBehaviour
     [SerializeField] private ShopManager shopManager;
     [SerializeField] internal TMP_Text popUpMsgText;
     [SerializeField] internal GameObject popUpMsgGameobject;
+
     internal float delay = 3f;
+
     public static GameService Instance { get { return instance; } }
-    private static GameService instance;   
+    private static GameService instance;
+    
     public ShopManager ShopManager { get { return shopManager; } }  
-    public PlayerManager PlayerManager { get { return playerManager; }  }   
+    public PlayerManager PlayerManager { get { return playerManager; }  }  
+    
     private void Awake()
     {
         if (instance == null)
@@ -31,7 +35,13 @@ public class GameService : MonoBehaviour
     }
     public IEnumerator DisableAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
+       yield return new WaitForSeconds(delay);
        popUpMsgGameobject.SetActive(false);
+    }
+    public void ShowPopupMessage(string message)
+    {
+       popUpMsgGameobject.SetActive(true);
+       popUpMsgText.text = message;
+       StartCoroutine(DisableAfterDelay());
     }
 }

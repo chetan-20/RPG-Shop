@@ -9,60 +9,66 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject playerItemPrefab;
     [SerializeField] private GameObject playerItemParent;
     [SerializeField] private TMP_Text playerinventoryLoadText;
+
     private Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
     internal int playerMoney;
     internal float playerCurrentLoad = 0;
     internal float playerMaxLoad=80;
+
     private void Start()
     {
         playerMoney = 0;
+        UpdateCredits();
     }
     public void UpdateInventory(ItemsTemplate item,int quantity)
     {
-        float totalPrice = item.itemSO.buyingPrice * quantity;
-        float totalWeight = item.itemSO.weight * quantity;
-        if (playerMoney >= totalPrice && (playerCurrentLoad + totalWeight) <= playerMaxLoad)
+        int totalPrice = item.itemSO.buyingPrice * quantity;
+        float totalWeight = item.itemSO.weight * quantity;                  
+        if(playerMoney < totalPrice)
         {
-            if (playerInventory.ContainsKey(item.uniqueTemplateID))
-            {
-                ItemsTemplate existingItem = playerInventory[item.uniqueTemplateID];
-                existingItem.tempItemQuantity += quantity;
-                existingItem.QuantityText.text = existingItem.tempItemQuantity.ToString();
-                existingItem.itemSO.quantity -= quantity;
-                playerMoney -= existingItem.itemSO.buyingPrice * quantity;
-                playerCurrentLoad += existingItem.itemSO.weight * quantity;
-                GameService.Instance.ShopManager.ResetBuyButton(existingItem);
-                RefreshPlayerInventory(existingItem);
-            }
-            else
-            {
-                item.itemSO.quantity -= quantity;
-                playerMoney -= item.itemSO.buyingPrice * quantity;
-                playerCurrentLoad += quantity * item.itemSO.weight;
-                GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
-                ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
-                SetPlayerItem(playerItem, item, quantity);
-                playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
-                UpdateCredits();
-                UpdatePlayerLoad();
-            }
+           GameService.Instance.ShowPopupMessage("Not Enough Credits");               
         }
-        else {
-            
-            if(playerMoney < totalPrice)
-            {
-                GameService.Instance.popUpMsgGameobject.SetActive(true);
-                GameService.Instance.popUpMsgText.text = "Not Enough Credits";
-                StartCoroutine(GameService.Instance.DisableAfterDelay());
-            }
-            else  if(playerCurrentLoad + totalWeight >= playerMaxLoad)
-            {
-                GameService.Instance.popUpMsgGameobject.SetActive(true);
-                GameService.Instance.popUpMsgText.text = "Cant Exceed Max Weight";
-                StartCoroutine(GameService.Instance.DisableAfterDelay());
-            }
+        else  if(playerCurrentLoad + totalWeight > playerMaxLoad)
+        {               
+           GameService.Instance.ShowPopupMessage("Cant Exceed Max Weight");               
+        }
+        else
+        {
+           AddOrUpdateItem(item,quantity,totalWeight,totalPrice);
+        }        
+    }
+    private void AddOrUpdateItem(ItemsTemplate item,int quantity,float TotalWeight,int TotalPrice)
+    {
+        playerMoney -= TotalPrice;
+        playerCurrentLoad += TotalWeight;
+        if (playerInventory.ContainsKey(item.uniqueTemplateID))
+        {
+            UpdateExistingItem(item, quantity);
+        }
+        else
+        {
+            AddNewItem(item, quantity);
         }
     }
+    private void UpdateExistingItem(ItemsTemplate item, int quantity)
+    {
+        ItemsTemplate existingItem = playerInventory[item.uniqueTemplateID];
+        existingItem.tempItemQuantity += quantity;
+        existingItem.QuantityText.text = existingItem.tempItemQuantity.ToString();
+        existingItem.itemSO.quantity -= quantity;        
+        GameService.Instance.ShopManager.ResetBuyButton(existingItem);
+        RefreshPlayerInventory(existingItem);
+    }  
+    private void AddNewItem(ItemsTemplate item,int quantity)
+    {
+        item.itemSO.quantity -= quantity;      
+        GameObject playerItemPre = Instantiate(playerItemPrefab, parent: playerItemParent.transform);
+        ItemsTemplate playerItem = playerItemPre.GetComponent<ItemsTemplate>();
+        SetPlayerItem(playerItem, item, quantity);
+        playerInventory.Add(playerItem.uniqueTemplateID, playerItem);
+        UpdateCredits();
+        UpdatePlayerLoad();
+    }  
     private void SellInventoryItem(ItemsTemplate playerItem)
     {
         if (playerItem.tempItemQuantity > 0 )
@@ -81,24 +87,25 @@ public class PlayerManager : MonoBehaviour
             GameService.Instance.ShopManager.ResetBuyButton(playerItem);            
         }
     }
-
     private void SellPlusRarityBonus(ItemsTemplate playerItem)
     {
-        if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Common)
+        int bonusCredits = GetRarityBonus(playerItem.itemSO.itemRarity);       
+        playerMoney += (playerItem.itemSO.buyingPrice+bonusCredits) * playerItem.itemIncDecQuantity;       
+    }
+    private int GetRarityBonus(ShopItemsSO.rarity rarity)
+    {
+        switch (rarity)
         {
-            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 2;
-        }
-        else if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Rare)
-        {
-            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 4;
-        }
-        else if (playerItem.itemSO.itemRarity == ShopItemsSO.rarity.Epic)
-        {
-            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 6;
-        }
-        else
-        {
-            playerMoney += (playerItem.itemSO.buyingPrice * playerItem.itemIncDecQuantity) + 8;
+            case ShopItemsSO.rarity.Common:
+                return 2;
+            case ShopItemsSO.rarity.Rare:
+                return 3;
+            case ShopItemsSO.rarity.Epic:
+                return 4;
+            case ShopItemsSO.rarity.Legendary:
+                return 5;
+            default:
+                return 1;
         }
     }
     private void SetPlayerItem(ItemsTemplate PlayerItem,ItemsTemplate shopItem,int quantity)
@@ -112,12 +119,17 @@ public class PlayerManager : MonoBehaviour
         PlayerItem.rarityText.text = shopItem.rarityText.text;
         PlayerItem.QuantityText.text = quantity.ToString();
         PlayerItem.uniqueTemplateID = shopItem.uniqueTemplateID;
+        SetUpButtonListeners(PlayerItem);
+        GameService.Instance.ShopManager.ResetBuyButton(PlayerItem);
+    }
+
+    private void SetUpButtonListeners(ItemsTemplate PlayerItem)
+    { 
         PlayerItem.buyButton.onClick.AddListener(GameService.Instance.ShopManager.OnClickBuyButton);
         PlayerItem.cancelButton.onClick.AddListener(GameService.Instance.ShopManager.OnClickCancelButton);
         PlayerItem.increaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.IncreaseQuantity);
         PlayerItem.decreaseQuantityButton.onClick.AddListener(GameService.Instance.ShopManager.DecreaseQuantity);
         PlayerItem.purhcaseButton.onClick.AddListener(() => SellInventoryItem(PlayerItem));
-        GameService.Instance.ShopManager.ResetBuyButton(PlayerItem);
     }
     private void RefreshPlayerInventory(ItemsTemplate playerItem)
     {
@@ -129,11 +141,15 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            playerInventory.Remove(playerItem.uniqueTemplateID);
-            Destroy(playerItem.gameObject);
-            UpdateCredits();
-            UpdatePlayerLoad();
+            RemoveFromInventory(playerItem);
         }
+    }
+    private void RemoveFromInventory(ItemsTemplate playerItem)
+    {
+        playerInventory.Remove(playerItem.uniqueTemplateID);
+        Destroy(playerItem.gameObject);
+        UpdateCredits();
+        UpdatePlayerLoad();
     }
     public void GenerateCoin()
     {

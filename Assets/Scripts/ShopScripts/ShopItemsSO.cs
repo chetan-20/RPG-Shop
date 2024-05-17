@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 [CreateAssetMenu(fileName="NewShopItem",menuName ="ShopItem")]
 public class ShopItemsSO : ScriptableObject
-{
- 
+{ 
     [SerializeField] internal Sprite icon;
     [SerializeField] internal string itemDescription;
     [SerializeField] internal int buyingPrice;
@@ -15,6 +14,7 @@ public class ShopItemsSO : ScriptableObject
     [SerializeField] internal rarity itemRarity;
     [SerializeField] internal type itemType;
     [SerializeField] internal int uniqueID;
+
     internal enum rarity
     {
         Common,

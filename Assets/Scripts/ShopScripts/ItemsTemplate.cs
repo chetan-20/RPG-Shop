@@ -19,6 +19,7 @@ public class ItemsTemplate : MonoBehaviour
     [SerializeField] internal Button decreaseQuantityButton;
     [SerializeField] internal Button purhcaseButton;
     [SerializeField] internal Button cancelButton;
+
     internal int itemIncDecQuantity=1;
     internal ShopItemsSO itemSO;
     internal ShopItemsSO.rarity itemRarity;
