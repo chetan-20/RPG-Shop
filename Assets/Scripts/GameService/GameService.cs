@@ -9,14 +9,15 @@ public class GameService : MonoBehaviour
     [SerializeField] private ShopManager shopManager;
     [SerializeField] internal TMP_Text popUpMsgText;
     [SerializeField] internal GameObject popUpMsgGameobject;
-
+    [SerializeField] internal SoundManager soundManager;
     internal float delay = 3f;
 
     public static GameService Instance { get { return instance; } }
     private static GameService instance;
     
     public ShopManager ShopManager { get { return shopManager; } }  
-    public PlayerManager PlayerManager { get { return playerManager; }  }  
+    public PlayerManager PlayerManager { get { return playerManager; } }  
+    public SoundManager SoundManager { get { return soundManager; } }
     
     private void Awake()
     {
