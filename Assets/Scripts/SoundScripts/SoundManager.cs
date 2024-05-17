@@ -2,20 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class SoundManager : MonoBehaviour
 {       
     [SerializeField] private AudioSource SoundEffect;
     [SerializeField] private AudioSource SoundMusic;
-    [SerializeField] internal SoundType[] Sounds;
-   
+    [SerializeField] internal SoundType[] Sou;
+      
     private void Start()
     {
         PlayMusic();
     }
     private AudioClip GetSoundClip(Sounds sound)
     {
-        SoundType item = Array.Find(Sounds, i => i.soundtype == sound);
+        SoundType item = Array.Find(Sou, i => i.soundtype == sound);
         if (item != null)
         {
             return item.soundclip;
@@ -40,7 +39,7 @@ public class SoundManager : MonoBehaviour
     private void PlayMusic()
     {
         SoundMusic.Play();      
-    }
+    }    
 }
 
 [Serializable]
@@ -52,7 +51,8 @@ public class SoundType
 public enum Sounds
 {
    ButtonClickSound,
-   BuyOrSellSound,
+   BuySound,
+   SellSound,
    IncDecQuantitySound,
    CantBuyorSellSound,
    GenerateMoneySound

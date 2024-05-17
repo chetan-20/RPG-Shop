@@ -28,15 +28,18 @@ public class PlayerManager : MonoBehaviour
         float totalWeight = item.itemSO.weight * quantity;                  
         if(playerMoney < totalPrice)
         {
-           GameService.Instance.ShowPopupMessage("Not Enough Credits");               
+           GameService.Instance.ShowPopupMessage("Not Enough Credits");
+           GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
         }
         else  if(playerCurrentLoad + totalWeight > playerMaxLoad)
         {               
-           GameService.Instance.ShowPopupMessage("Cant Exceed Max Weight");               
+           GameService.Instance.ShowPopupMessage("Cant Exceed Max Weight");
+           GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
         }
         else
         {
-            AddOrUpdateItem(item,quantity,totalWeight,totalPrice);            
+           GameService.Instance.SoundManager.PlaySound(Sounds.BuySound);
+           AddOrUpdateItem(item,quantity,totalWeight,totalPrice);            
         }        
     }
     private void AddOrUpdateItem(ItemsTemplate item,int quantity,float TotalWeight,int TotalPrice)
@@ -82,7 +85,8 @@ public class PlayerManager : MonoBehaviour
             SellPlusRarityBonus(playerItem);
             GameService.Instance.ShopManager.ResetBuyButton(playerItem);                              
             GameService.Instance.ShopManager.RefreshShopUI(playerItem);
-            RefreshPlayerInventory(playerItem);           
+            RefreshPlayerInventory(playerItem);
+            GameService.Instance.SoundManager.PlaySound(Sounds.SellSound);
         }
         else
         {
@@ -100,9 +104,9 @@ public class PlayerManager : MonoBehaviour
         switch (rarity)
         {
             case ShopItemsSO.rarity.Common:
-                return 2;
+                return 2;               
             case ShopItemsSO.rarity.Rare:
-                return 3;
+                return 3;                
             case ShopItemsSO.rarity.Epic:
                 return 4;
             case ShopItemsSO.rarity.Legendary:
@@ -161,6 +165,7 @@ public class PlayerManager : MonoBehaviour
         if (playerMoney == 0)
         {
             playerMoney += UnityEngine.Random.Range(65,75);
+            GameService.Instance.SoundManager.PlaySound(Sounds.GenerateMoneySound);
         }
         UpdateCredits();
     }

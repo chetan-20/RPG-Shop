@@ -518,16 +518,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SoundEffect: {fileID: 1710001159}
   SoundMusic: {fileID: 1094590974}
-  Sounds:
+  Sou:
   - soundtype: 0
     soundclip: {fileID: 8300000, guid: b43d102aac6b145468dcaa94a5cccae1, type: 3}
   - soundtype: 1
     soundclip: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
   - soundtype: 2
-    soundclip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+    soundclip: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
   - soundtype: 3
-    soundclip: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
+    soundclip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   - soundtype: 4
+    soundclip: {fileID: 8300000, guid: cf6c0e7fbef9449c98a0cdb5ea0c4d9f, type: 3}
+  - soundtype: 5
     soundclip: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
 --- !u!1 &247980355
 GameObject:
@@ -782,6 +784,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4159257e53f8398449cb99165c23b637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialButton: {fileID: 249435340}
+  weaponsButton: {fileID: 567542952}
+  consumablesButton: {fileID: 1328419459}
+  treasureButton: {fileID: 1159277827}
   materialItemsSO:
   - {fileID: 11400000, guid: 38df94bd456029c4986ea6e26ac755e5, type: 2}
   - {fileID: 11400000, guid: 410256762a347524eb13f0eb499afaf1, type: 2}
@@ -2639,11 +2645,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d98a14a93d1680445a0d23d77a3dc289, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4075,7 +4081,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

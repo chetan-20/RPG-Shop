@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    [SerializeField] private Button materialButton;
+    [SerializeField] private Button weaponsButton;
+    [SerializeField] private Button consumablesButton;
+    [SerializeField] private Button treasureButton;
     [SerializeField] private ShopItemsSO[] materialItemsSO;
     [SerializeField] private ShopItemsSO[] weaponItemsSO;
     [SerializeField] private ShopItemsSO[] consumablesItemsSO;
@@ -19,6 +23,7 @@ public class ShopManager : MonoBehaviour
     {
         DisableAllItems();
         LoadMaterialItems();
+        AddSoundToTabButtons();
     }
 
     public void LoadMaterialItems()=> ConnectSOtoUI(materialItemsSO);    
@@ -27,6 +32,7 @@ public class ShopManager : MonoBehaviour
     public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
     public void ResetScrollRect(ScrollRect scroll)=> scroll.normalizedPosition = new Vector2(0, 1);
     private Button GetButton() => UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+
     private ItemsTemplate GetItemTemplate(Button button) 
     {
         ItemsTemplate template1 = button.transform.parent.GetComponent<ItemsTemplate>();
@@ -40,9 +46,9 @@ public class ShopManager : MonoBehaviour
             return template2;
         }
     }
-
     public void OnClickBuyButton()
     {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
         Button button = GetButton();             
         ItemsTemplate itemsTemplate = GetItemTemplate(button);
         ResetQuant(itemsTemplate);
@@ -51,6 +57,7 @@ public class ShopManager : MonoBehaviour
     }
     public void OnClickCancelButton()
     {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
         Button button = GetButton();
         ItemsTemplate itemsTemplate = GetItemTemplate(button);
         itemsTemplate.buyButton.gameObject.SetActive(true);
@@ -65,6 +72,7 @@ public class ShopManager : MonoBehaviour
         {
             itemsTemplate.itemIncDecQuantity++;
             itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
+            GameService.Instance.SoundManager.PlaySound(Sounds.IncDecQuantitySound);
         }
         else
         {
@@ -81,7 +89,8 @@ public class ShopManager : MonoBehaviour
             itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
         }
         else
-        {      
+        {
+            GameService.Instance.SoundManager.PlaySound(Sounds.IncDecQuantitySound);
             itemsTemplate.selectQuantityText.text = selectquant + itemsTemplate.itemIncDecQuantity;
             itemsTemplate.itemIncDecQuantity--;
         }
@@ -112,15 +121,16 @@ public class ShopManager : MonoBehaviour
         {           
             GameService.Instance.PlayerManager.UpdateInventory(item, item.itemIncDecQuantity);
             ResetBuyButton(item);
-            RefreshShopUI(item);           
+            RefreshShopUI(item);            
         }
         else
-        {           
+        {
+            GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
             GameService.Instance.ShowPopupMessage("Item Not Available");           
         }
     }  
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)
-    {
+    {      
         DisableAllItems();
         for(int i=0; i<shopItemsSO.Length; i++)
         {
@@ -163,5 +173,12 @@ public class ShopManager : MonoBehaviour
         {
             LoadTreasureItems();
         }
-    }        
+    }
+    private void AddSoundToTabButtons()
+    {
+        materialButton.onClick.AddListener(()=>GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound));
+        weaponsButton.onClick.AddListener(() => GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound));
+        consumablesButton.onClick.AddListener(() => GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound));
+        treasureButton.onClick.AddListener(() => GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound));
+    }
 }
