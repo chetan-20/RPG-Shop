@@ -2581,6 +2581,7 @@ MonoBehaviour:
   playerItemPrefab: {fileID: 7796128315076807786, guid: 709024ec6f685734da6442668ec7d1cf, type: 3}
   playerItemParent: {fileID: 247980355}
   playerinventoryLoadText: {fileID: 1797129177}
+  scrollRect: {fileID: 330877091}
 --- !u!1 &1159277825
 GameObject:
   m_ObjectHideFlags: 0
