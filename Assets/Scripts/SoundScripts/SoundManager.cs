@@ -6,8 +6,8 @@ public class SoundManager : MonoBehaviour
 {       
     [SerializeField] private AudioSource SoundEffect;
     [SerializeField] private AudioSource SoundMusic;
-    [SerializeField] internal SoundType[] Sou;
-      
+    [SerializeField] internal SoundType[] Sou;    
+   
     private void Start()
     {
         PlayMusic();
@@ -39,7 +39,7 @@ public class SoundManager : MonoBehaviour
     private void PlayMusic()
     {
         SoundMusic.Play();      
-    }    
+    }   
 }
 
 [Serializable]
