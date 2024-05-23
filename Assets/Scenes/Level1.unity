@@ -5302,7 +5302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1147550505}
   shopManager: {fileID: 297868063}
-  soundManager: {fileID: 0}
+  soundManager: {fileID: 778296836}
   popUpManager: {fileID: 1641155992}
 --- !u!1 &2116043791
 GameObject:
