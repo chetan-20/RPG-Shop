@@ -745,43 +745,10 @@ MonoBehaviour:
   weaponsButton: {fileID: 567542952}
   consumablesButton: {fileID: 1328419459}
   treasureButton: {fileID: 1159277827}
-  materialItemsSO:
-  - {fileID: 11400000, guid: 38df94bd456029c4986ea6e26ac755e5, type: 2}
-  - {fileID: 11400000, guid: 410256762a347524eb13f0eb499afaf1, type: 2}
-  - {fileID: 11400000, guid: 0f954b23fa5c1464792cc29cc2a76e38, type: 2}
-  - {fileID: 11400000, guid: a5b5fba2f7cabf2469748577895688f3, type: 2}
-  - {fileID: 11400000, guid: 1be8982f534da2744ace7f1137ab87d6, type: 2}
-  - {fileID: 11400000, guid: 3308f2b21689af04086e65af0543acbb, type: 2}
-  - {fileID: 11400000, guid: 772d76c040f8da948b8612d0659624ee, type: 2}
-  - {fileID: 11400000, guid: 147003188eea848448d4d51926d73b05, type: 2}
-  - {fileID: 11400000, guid: 7dd1130b51e509c4bbc0137c17f88fe7, type: 2}
-  - {fileID: 11400000, guid: 484a65a0d623f9a448e490646db078c1, type: 2}
-  weaponItemsSO:
-  - {fileID: 11400000, guid: a5f449c0cf0d30f458d105da4a366218, type: 2}
-  - {fileID: 11400000, guid: 4b35f74a3fe314c4e9c3b299316d2f09, type: 2}
-  - {fileID: 11400000, guid: e795eba98dc6d734b971bb6a3c3f951c, type: 2}
-  - {fileID: 11400000, guid: 85673f1a111b1564ea1e2f058a34e704, type: 2}
-  - {fileID: 11400000, guid: 5c6bc3094e78ad94abe558c3fe55957d, type: 2}
-  - {fileID: 11400000, guid: d5af6d60ca695fb438e4a812b90e44fd, type: 2}
-  - {fileID: 11400000, guid: aace0c1c27ac98b4c9d8b608e9763a70, type: 2}
-  - {fileID: 11400000, guid: f4ba368e41207cb47b0a7bc6dea54e00, type: 2}
-  consumablesItemsSO:
-  - {fileID: 11400000, guid: 9b52f3ae82da5084596fc12494a3117f, type: 2}
-  - {fileID: 11400000, guid: 1a3bd4f99ad08e84285c73f156260d55, type: 2}
-  - {fileID: 11400000, guid: 752079e3b1e34ac44b206890dde01383, type: 2}
-  - {fileID: 11400000, guid: 86d2953408866ae438127b47eeceed1f, type: 2}
-  - {fileID: 11400000, guid: 4ec37b7b4f54b9149b7487a27123f24f, type: 2}
-  - {fileID: 11400000, guid: ad9ff6f8c1d9b0944b82139089373782, type: 2}
-  - {fileID: 11400000, guid: a4df4bc961ccdce44819808eb0850494, type: 2}
-  treasureItemsSO:
-  - {fileID: 11400000, guid: d1497c42ee5f7df4dacda368dc529626, type: 2}
-  - {fileID: 11400000, guid: 6c4f049b7fd9ddb45bd48a1263898d8f, type: 2}
-  - {fileID: 11400000, guid: 3f49ad33c32b2b24dbab1109c7e5bc23, type: 2}
-  - {fileID: 11400000, guid: 547fab6cf83100b458c9464aec3a847e, type: 2}
-  - {fileID: 11400000, guid: 73ae9bc1dce78a749b5f2726f0bf78f3, type: 2}
-  - {fileID: 11400000, guid: 4d3c733d6cd663d48b6a1d5ea34a4a2b, type: 2}
-  - {fileID: 11400000, guid: 1432f4ac5c177be448a085d01dc1bfb4, type: 2}
-  - {fileID: 11400000, guid: bc74539349a1b6443b64a6882bc37509, type: 2}
+  materialItemsSO: {fileID: 11400000, guid: 380a1fa5c2084e74d9545a8a10c54590, type: 2}
+  weaponItemsSO: {fileID: 11400000, guid: 96c061cef6990024f93b6d6031a5229f, type: 2}
+  consumablesItemsSO: {fileID: 11400000, guid: f5630e00a030e8f4d8ede4ba09162acd, type: 2}
+  treasureItemsSO: {fileID: 11400000, guid: 8bd065e86f69bc2489a11b5f5610250a, type: 2}
   itemsTemplate:
   - {fileID: 8965929161426067040}
   - {fileID: 1820298297}

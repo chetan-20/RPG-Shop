@@ -8,10 +8,10 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Button weaponsButton;
     [SerializeField] private Button consumablesButton;
     [SerializeField] private Button treasureButton;
-    [SerializeField] private ShopItemsSO[] materialItemsSO;
-    [SerializeField] private ShopItemsSO[] weaponItemsSO;
-    [SerializeField] private ShopItemsSO[] consumablesItemsSO;
-    [SerializeField] private ShopItemsSO[] treasureItemsSO;
+    [SerializeField] private MaterialItemSO materialItemsSO;
+    [SerializeField] private WeaponItemSO weaponItemsSO;
+    [SerializeField] private ConsumableItemSO consumablesItemsSO;
+    [SerializeField] private TreasureItemSO treasureItemsSO;
     [SerializeField] private ItemsTemplate[] itemsTemplate;
     [SerializeField] private ScrollRect scrollRect;    
 
@@ -25,10 +25,10 @@ public class ShopManager : MonoBehaviour
         LoadItemsTab();
     }
 
-    public void LoadMaterialItems()=> ConnectSOtoUI(materialItemsSO);    
-    public void LoadWeaponItems()=> ConnectSOtoUI(weaponItemsSO);   
-    public void LoadConsumablesItems()=> ConnectSOtoUI(consumablesItemsSO);   
-    public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO);   
+    public void LoadMaterialItems()=> ConnectSOtoUI(materialItemsSO.materialItems);    
+    public void LoadWeaponItems()=> ConnectSOtoUI(weaponItemsSO.weaponItems);   
+    public void LoadConsumablesItems()=> ConnectSOtoUI(consumablesItemsSO.consumableItems);   
+    public void LoadTreasureItems()=> ConnectSOtoUI(treasureItemsSO.treasureItems);   
     public void ResetScrollRect(ScrollRect scroll)=> scroll.normalizedPosition = new Vector2(0, 1);
     private Button GetButton() => UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
 
