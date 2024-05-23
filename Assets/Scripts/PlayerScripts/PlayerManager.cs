@@ -13,9 +13,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private ScrollRect scrollRect;
 
     private Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
-    internal int playerMoney;
-    internal float playerCurrentLoad = 0;
-    internal float playerMaxLoad=80;
+    public int playerMoney;
+    public float playerCurrentLoad = 0;
+    public float playerMaxLoad=80;
 
     private void Start()
     {

@@ -24,6 +24,7 @@ public class ShopManager : MonoBehaviour
         DisableAllItems();
         LoadMaterialItems();
         AddSoundToTabButtons();
+        LoadItemsTab();
     }
 
     public void LoadMaterialItems()=> ConnectSOtoUI(materialItemsSO);    
@@ -173,6 +174,13 @@ public class ShopManager : MonoBehaviour
         {
             LoadTreasureItems();
         }
+    }
+    private void LoadItemsTab()
+    {
+        materialButton.onClick.AddListener(LoadMaterialItems);
+        weaponsButton.onClick.AddListener(LoadWeaponItems);
+        consumablesButton.onClick.AddListener(LoadConsumablesItems);
+        treasureButton.onClick.AddListener(LoadTreasureItems);
     }
     private void AddSoundToTabButtons()
     {
