@@ -349,6 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 84135652}
+  - component: {fileID: 84135653}
   m_Layer: 5
   m_Name: GenerateCoin
   m_TagString: Untagged
@@ -376,6 +377,19 @@ RectTransform:
   m_AnchoredPosition: {x: 150, y: -50}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &84135653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84135651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09da522bb3babdd4a984a3d124a4c2d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generateCoinButton: {fileID: 688886412}
 --- !u!1 &120995484
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,9 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 1147550505}
   shopManager: {fileID: 297868063}
-  popUpMsgText: {fileID: 399086798}
-  popUpMsgGameobject: {fileID: 1641155988}
   soundManager: {fileID: 120995490}
+  popUpManager: {fileID: 1641155992}
 --- !u!114 &120995490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,19 +701,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 249435341}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 297868063}
-        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: LoadMaterialItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &249435341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1481,19 +1482,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 567542953}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 297868063}
-        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: LoadWeaponItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &567542953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2041,19 +2030,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 688886413}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1147550505}
-        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
-        m_MethodName: GenerateCoin
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &688886413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2785,6 +2762,9 @@ MonoBehaviour:
   playerItemParent: {fileID: 247980355}
   playerinventoryLoadText: {fileID: 1797129177}
   scrollRect: {fileID: 330877091}
+  playerMoney: 0
+  playerCurrentLoad: 0
+  playerMaxLoad: 80
 --- !u!1 &1159277825
 GameObject:
   m_ObjectHideFlags: 0
@@ -2867,19 +2847,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1159277828}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 297868063}
-        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: LoadTreasureItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1159277828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3524,19 +3492,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1328419460}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 297868063}
-        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
-        m_MethodName: LoadConsumablesItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1328419460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3969,6 +3925,7 @@ GameObject:
   - component: {fileID: 1641155989}
   - component: {fileID: 1641155991}
   - component: {fileID: 1641155990}
+  - component: {fileID: 1641155992}
   m_Layer: 5
   m_Name: PopUpMsgObject
   m_TagString: Untagged
@@ -4034,6 +3991,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1641155988}
   m_CullTransparentMesh: 1
+--- !u!114 &1641155992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641155988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f2dfceeb0b49243a21e57b07e76af4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popUpMsgText: {fileID: 399086798}
+  popUpMsgGameobject: {fileID: 1641155988}
+  popUpMsgDelay: 3
 --- !u!1 &1710001157
 GameObject:
   m_ObjectHideFlags: 0

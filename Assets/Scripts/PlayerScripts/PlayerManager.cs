@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TMP_Text playerinventoryLoadText;
     [SerializeField] private ScrollRect scrollRect;
 
-    private Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
+    public Dictionary<int, ItemsTemplate> playerInventory = new Dictionary<int, ItemsTemplate>();
     public int playerMoney;
     public float playerCurrentLoad = 0;
     public float playerMaxLoad=80;
@@ -159,22 +159,7 @@ public class PlayerManager : MonoBehaviour
         Destroy(playerItem.gameObject);
         UpdateCredits();
         UpdatePlayerLoad();
-    }
-    public void GenerateCoin()
-    {
-        if (playerMoney == 0 && playerInventory.Count==0)
-        {
-            playerMoney += UnityEngine.Random.Range(65,75);
-            GameService.Instance.SoundManager.PlaySound(Sounds.GenerateMoneySound);
-            UpdateCredits();
-        }
-        else
-        {
-            GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
-            GameService.Instance.PopUpManager.ShowPopupMessage("Cant Generate More Coin");
-        }
-       
-    }
+    }   
     public void UpdateCredits()
     {
         playerCreditstext.text = "Credits : " + playerMoney;
