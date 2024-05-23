@@ -6,7 +6,7 @@ using System;
 using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] internal TMP_Text playerCreditstext;
+    [SerializeField] public TMP_Text playerCreditstext;
     [SerializeField] private GameObject playerItemPrefab;
     [SerializeField] private GameObject playerItemParent;
     [SerializeField] private TMP_Text playerinventoryLoadText;
@@ -28,12 +28,12 @@ public class PlayerManager : MonoBehaviour
         float totalWeight = item.itemSO.weight * quantity;                  
         if(playerMoney < totalPrice)
         {
-           GameService.Instance.ShowPopupMessage("Not Enough Credits");
+           GameService.Instance.PopUpManager.ShowPopupMessage("Not Enough Credits");
            GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
         }
         else  if(playerCurrentLoad + totalWeight > playerMaxLoad)
         {               
-           GameService.Instance.ShowPopupMessage("Cant Exceed Max Weight");
+           GameService.Instance.PopUpManager.ShowPopupMessage("Cant Exceed Max Weight");
            GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
         }
         else
@@ -171,7 +171,7 @@ public class PlayerManager : MonoBehaviour
         else
         {
             GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
-            GameService.Instance.ShowPopupMessage("Cant Generate More Coin");
+            GameService.Instance.PopUpManager.ShowPopupMessage("Cant Generate More Coin");
         }
        
     }

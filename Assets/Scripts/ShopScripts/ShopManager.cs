@@ -126,7 +126,7 @@ public class ShopManager : MonoBehaviour
         else
         {
             GameService.Instance.SoundManager.PlaySound(Sounds.CantBuyorSellSound);
-            GameService.Instance.ShowPopupMessage("Item Not Available");           
+            GameService.Instance.PopUpManager.ShowPopupMessage("Item Not Available");           
         }
     }  
     private void ConnectSOtoUI(ShopItemsSO[] shopItemsSO)

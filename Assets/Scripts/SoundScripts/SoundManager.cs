@@ -6,7 +6,7 @@ public class SoundManager : MonoBehaviour
 {       
     [SerializeField] private AudioSource SoundEffect;
     [SerializeField] private AudioSource SoundMusic;
-    [SerializeField] internal SoundType[] Sou;    
+    [SerializeField] public SoundType[] Sou;    
    
     private void Start()
     {

@@ -7,20 +7,17 @@ using UnityEngine.UI;
 public class GameService : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
-    [SerializeField] private ShopManager shopManager;
-    [SerializeField] internal TMP_Text popUpMsgText;
-    [SerializeField] internal GameObject popUpMsgGameobject;
-    [SerializeField] internal SoundManager soundManager;
-   
-    internal float delay = 3f;
+    [SerializeField] private ShopManager shopManager;   
+    [SerializeField] private SoundManager soundManager;
+    [SerializeField] private PopUpManager popUpManager;
 
     public static GameService Instance { get { return instance; } }
-    private static GameService instance;
-    
+    private static GameService instance;    
     public ShopManager ShopManager { get { return shopManager; } }  
     public PlayerManager PlayerManager { get { return playerManager; } }  
     public SoundManager SoundManager { get { return soundManager; } }
-    
+    public PopUpManager PopUpManager { get { return popUpManager; } }
+
     private void Awake()
     {
         if (instance == null)
@@ -32,31 +29,16 @@ public class GameService : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-        popUpMsgGameobject.SetActive(false);
-    }
     private void Update()
     {
-        onEscapePress();
+        OnEscapePress();
     }
-    public IEnumerator DisableAfterDelay()
+    private void OnEscapePress()
     {
-       yield return new WaitForSeconds(delay);
-       popUpMsgGameobject.SetActive(false);
-    }
-    public void ShowPopupMessage(string message)
-    {
-       popUpMsgGameobject.SetActive(true);
-       popUpMsgText.text = message;
-       StartCoroutine(DisableAfterDelay());
-    }
-    private void onEscapePress()
-    {        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();           
-        }      
+            Application.Quit();
+        }
     }
 
 }
