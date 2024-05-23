@@ -6,23 +6,23 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName="NewShopItem",menuName ="ShopItem")]
 public class ShopItemsSO : ScriptableObject
 { 
-    [SerializeField] internal Sprite icon;
-    [SerializeField] internal string itemDescription;
-    [SerializeField] internal int buyingPrice;
-    [SerializeField] internal float weight;    
-    [SerializeField] internal int quantity;
-    [SerializeField] internal rarity itemRarity;
-    [SerializeField] internal type itemType;
-    [SerializeField] internal int uniqueID;
+    [SerializeField] public Sprite icon;
+    [SerializeField] public string itemDescription;
+    [SerializeField] public int buyingPrice;
+    [SerializeField] public float weight;    
+    [SerializeField] public int quantity;
+    [SerializeField] public rarity itemRarity;
+    [SerializeField] public type itemType;
+    [SerializeField] public int uniqueID;
 
-    internal enum rarity
+    public enum rarity
     {
         Common,
         Rare,
         Epic,
         Legendary
     }
-    internal enum type
+    public enum type
     {       
         Material,
         Weapon,

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PopUpManager : MonoBehaviour
 {
-    [SerializeField] internal TMP_Text popUpMsgText;
-    [SerializeField] internal GameObject popUpMsgGameobject;
+    [SerializeField] public TMP_Text popUpMsgText;
+    [SerializeField] public GameObject popUpMsgGameobject;
 
-    internal float popUpMsgDelay = 3f;
+    public float popUpMsgDelay = 3f;
 
     private void Start()
     {
