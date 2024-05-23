@@ -8,13 +8,13 @@ Player needs to generate coins first to start the game.
 Player can choose quantity and buy if they have the money.
 Player can't exceed the max quantity limit.
 
-If player doesnt have enough money , exceed the max weight , or the item is not available in the shop a popup will be displayed accordingly.
+If player doesnt have enough money , exceed the max weight , or the item is not available in the shop a popup will be displayed accordingly.Used Coroutine to implement the popup effect.
 
 Player can sell the item that they have bought and get bonus based on item rarity.
 
 Service Locator(Game Service) is used as a centralized acess point for all the scripts.
 
-Used Scriptable object to store the item information and then again used scriptable objects to hold all the items (based on item type)
+Used Scriptable object to store the item information and  again used scriptable objects as containers to hold all the items (based on item type)
 
 WebGl : https://chet00.itch.io/rpgshop
 
