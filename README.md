@@ -13,6 +13,7 @@ If player doesnt have enough money , exceed the max weight , or the item is not 
 Player can sell the item that they have bought and get bonus based on item rarity.
 
 Service Locator(Game Service) is used as a centralized acess point for all the scripts.
+
 Used Scriptable object to store the item information and then again used scriptable objects to hold all the items (based on item type)
 
 WebGl : https://chet00.itch.io/rpgshop
